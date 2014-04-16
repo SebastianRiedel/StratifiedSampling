@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 
 Project(StratifiedSampling)
+
+include(dlr_setup.txt)
+
 ENABLE_TESTING()
 
 FIND_PACKAGE(VTK REQUIRED)
@@ -47,9 +50,7 @@ SERVER_SOURCES boxbox.cpp diffuse.cc edgeflip.cc faceflip.cc filter.cc ICP.cc KD
 
 endif(BUILD_PARAVIEW_PLUGIN)
 
-ADD_EXECUTABLE(main vtkStratifiedSampling.cxx main.cpp
-${sources}
-)
+ADD_EXECUTABLE(main  vtkStratifiedSampling.cxx main.cpp ${sources})
 TARGET_LINK_LIBRARIES(main ${VTK_LIBRARIES})
 
 #######################
@@ -57,8 +58,7 @@ ADD_LIBRARY(stratifiedsampling vtkStratifiedSampling.h vtkStratifiedSampling.cxx
 TARGET_LINK_LIBRARIES(stratifiedsampling ${VTK_LIBRARIES})
 
 ##############
-ADD_EXECUTABLE(Test Test.cxx vtkStratifiedSampling.cxx 
-${sources})
+ADD_EXECUTABLE(Test Test.cxx vtkStratifiedSampling.cxx ${sources})
 TARGET_LINK_LIBRARIES(Test ${VTK_LIBRARIES})
 
 ADD_TEST(StratifiedSamplingTest Test)
