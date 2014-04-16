@@ -47,11 +47,14 @@ SERVER_SOURCES boxbox.cpp diffuse.cc edgeflip.cc faceflip.cc filter.cc ICP.cc KD
 
 endif(BUILD_PARAVIEW_PLUGIN)
 
-ADD_EXECUTABLE(StratifiedSampling  vtkStratifiedSampling.cxx main.cpp
+ADD_EXECUTABLE(main vtkStratifiedSampling.cxx main.cpp
 ${sources}
 )
+TARGET_LINK_LIBRARIES(main ${VTK_LIBRARIES})
 
-TARGET_LINK_LIBRARIES(StratifiedSampling ${VTK_LIBRARIES})
+#######################
+ADD_LIBRARY(stratifiedsampling vtkStratifiedSampling.h vtkStratifiedSampling.cxx ${sources})
+TARGET_LINK_LIBRARIES(stratifiedsampling ${VTK_LIBRARIES})
 
 ##############
 ADD_EXECUTABLE(Test Test.cxx vtkStratifiedSampling.cxx 
@@ -59,3 +62,12 @@ ${sources})
 TARGET_LINK_LIBRARIES(Test ${VTK_LIBRARIES})
 
 ADD_TEST(StratifiedSamplingTest Test)
+
+FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+INSTALL(FILES ${files} DESTINATION include)
+
+INSTALL(TARGETS stratifiedsampling
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
