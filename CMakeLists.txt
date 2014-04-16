@@ -57,7 +57,7 @@ ${sources}
 TARGET_LINK_LIBRARIES(main ${VTK_LIBRARIES})
 
 #######################
-ADD_LIBRARY(stratifiedsampling vtkStratifiedSampling.h vtkStratifiedSampling.cxx)
+ADD_LIBRARY(stratifiedsampling vtkStratifiedSampling.h vtkStratifiedSampling.cxx ${sources})
 TARGET_LINK_LIBRARIES(stratifiedsampling ${VTK_LIBRARIES})
 
 ##############
@@ -66,6 +66,9 @@ ${sources})
 TARGET_LINK_LIBRARIES(Test ${VTK_LIBRARIES})
 
 ADD_TEST(StratifiedSamplingTest Test)
+
+FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+INSTALL(FILES ${files} DESTINATION include)
 
 INSTALL(TARGETS stratifiedsampling
   RUNTIME DESTINATION bin
